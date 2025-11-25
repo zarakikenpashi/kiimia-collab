@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+.swiper-button-next svg, 
+.swiper-button-prev svg{
+  display: none !important;
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+animation: scroll 20s linear infinite;
+}
+@theme {
+  --background: 2 27 201;
+  --foreground: 255 255 255;
+  --primary: 255 78 0;
+  --muted: 255 78 0;
+}
+
+/* Définition des couleurs Tailwind utilisables */
+@layer utilities {
+  .bg-background { background-color: rgb(var(--background)); }
+  .text-foreground { color: rgb(var(--primary)); }
+  .hover\:text-foreground:hover { color: rgb(var(--foreground)); }
+
+  .bg-primary { background-color: rgb(var(--primary)); }
+  .hover\:bg-primary:hover { background-color: rgb(var(--primary)); }
+
+  .bg-muted { background-color: rgb(var(--muted)); }
+  .text-muted { color: rgb(var(--muted)); }
+
+  .bg-accent { background-color: rgb(var(--accent)); }
+  .text-accent { color: rgb(var(--accent)); }
+  .text-accent-foreground { color: rgb(var(--accent-foreground)); }
+
+  .border-primary { border-color: rgb(var(--primary)); }
+  .border-muted { border-color: rgb(var(--muted)); }
+  
+  /* Couleurs de texte */
+  .text-muted-foreground { color: rgb(var(--muted)); }
+  .hover\:text-primary:hover { color: rgb(var(--primary)); }
+  .group-hover\:text-primary.group:hover & { color: rgb(var(--primary)); }
+  /* Bordure du lien (le soulignement) */  
+  .hover\:border-b-primary:hover { border-bottom-color: rgb(var(--primary)); }
+}
+
+.tabs-lift{
+  @apply bg-white rounded-lg  shadow-sm;
+}
+/* style pour le tab actif  bg-[#595959]*/
+.tab{
+  @apply rounded-full
+}
+.tab:hover{
+  @apply text-[rgb(255,78,0)]
+}
+.tab:checked{
+  @apply text-white bg-[rgb(255,78,0)] rounded-full;
+}
+/* .tab:checked + .tab-content,
+.tab.tab-active {
+  @apply bg-blue-500 text-white;
+} */
