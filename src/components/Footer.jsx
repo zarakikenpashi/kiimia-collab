@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { Logo } from "./ui/Logo"
 
 export const Footer = () => {
@@ -51,11 +52,8 @@ export const Footer = () => {
           <div class="grid gap-12 md:grid-cols-4">
               <div class="md:col-span-2">
                   <a aria-label="go home" class="block size-fit" href="/">
-                     <Logo className="w-48 h-auto" />   
-                        
-
+                    <Logo className="w-48 h-auto" />   
                   </a>
-
                   <div class="flex flex-wrap  gap-6 text-sm py-6">
                       <a
                           target="_blank"
@@ -103,18 +101,37 @@ export const Footer = () => {
                   </div>
               </div>
               <div class="md:col-span-2 md:grid-cols-2 grid  gap-6">
-                  <div class="space-y-4 text-sm">
+                    <div class="space-y-4 text-sm">
                       <span class="block font-medium text-muted-foreground">Liens utiles</span>
                       <div className="grid gap-y-3 gap-x-4 grid-cols-4  md:flex md:flex-wrap md:w-full">
-                      <a class="text-white hover:text-primary block duration-150"><span>Partenaires</span></a>
-                      <a class="text-white hover:text-primary block duration-150"><span>Vos billets</span></a>
-                      <a class="text-white hover:text-primary block duration-150"><span>Vos trajets</span></a>
-                      <a class="text-white hover:text-primary block duration-150"><span>Service client</span></a>
-                      <a class="text-white hover:text-primary block duration-150"><span>Aide</span></a>
-                      <a class="text-white hover:text-primary block duration-150"><span>Tout sur kiimia</span></a>
+                        <a class="text-white hover:text-primary block duration-150"><span>Service client</span></a>
+                        <a class="text-white hover:text-primary block duration-150"><span>Aide</span></a>
+                        <a class="text-white hover:text-primary block duration-150"><span>Tout sur kiimia</span></a>
                       </div>
+                    </div>
 
-                  </div>
+                    <div class="space-y-4 text-sm">
+                      <span class="block font-medium text-muted-foreground">Partenaires</span>
+                      <div className="grid gap-y-3 gap-x-4 grid-cols-4  md:flex md:flex-wrap md:w-full">
+                        <Link to="/auth/company/login" class="text-white hover:text-primary block duration-150"><span>Mon compte</span></Link>
+                        <Link to="/auth/company/register" class="text-white hover:text-primary block duration-150"><span>Devenir partenaire</span></Link>
+                      </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm">
+                      <span class="block font-medium text-muted-foreground">Voyageurs</span>
+                      <div className="grid gap-y-3 gap-x-4 grid-cols-4  md:flex md:flex-wrap md:w-full">
+                        <Link to="/auth" class="text-white hover:text-primary block duration-150"><span>Mon compte</span></Link>
+                        <Link to="/auth" class="text-white hover:text-primary block duration-150"><span>Mes billets</span></Link>
+                        <Link to="/auth" class="text-white hover:text-primary block duration-150"><span>Mes trajets</span></Link>
+                      </div>
+                    </div>
+
+
+
+
+
+
                   <div class="space-y-4 text-sm">
                       <span class="block font-medium text-muted-foreground">Moyens de payments</span>
                       <div className="payment-body grid gap-y-3 gap-x-4 grid-cols-5 md:flex md:flex-wrap md:w-full">

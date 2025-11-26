@@ -31,19 +31,19 @@ function CompanyLayout() {
     { 
       name: 'Voyages', 
       icon: Compass, 
-      path: '/compagnie/voyages',
+      path: '/company/voyages',
       submenu: [
-        { name: 'Liste des voyages', icon: Zap, path: '/compagnie/listevoyages' },
-        { name: 'Ajouter un voyage', icon: Code, path: '/compagnie/nouveauvoyage' },
+        { name: 'Liste des voyages', icon: Zap, path: '/company/listevoyages' },
+        { name: 'Ajouter un voyage', icon: Code, path: '/company/nouveauvoyage' },
       ]
     },
     { 
       name: 'Tickets', 
       icon: Box, 
-      path: '/compagnie/tickets',
+      path: '/company/tickets',
       submenu: [
-        { name: 'Liste des tickets', icon: Cpu, path: '/compagnie/listetickets' },
-        { name: 'Ajouter un ticket', icon: Layers, path: '/compagnie/nouveauticket' },
+        { name: 'Liste des tickets', icon: Cpu, path: '/company/listetickets' },
+        { name: 'Ajouter un ticket', icon: Layers, path: '/company/nouveauticket' },
       ]
     },
   ];
@@ -60,7 +60,7 @@ function CompanyLayout() {
       >
         {/* Header */}
         <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-          <Link to="/compagnie" className="flex items-center gap-2">
+          <Link to="/company" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white text-sm font-bold">KI</span>
             </div>

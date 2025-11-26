@@ -36,10 +36,7 @@ export const Parteners = () => {
   return (
     <section className="py-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Titre et texte */}
         <div className="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-6">
-
-
           {/* Conteneur du défilement */}
           <div className="relative w-full  overflow-hidden">
             {/* Bande animée */}

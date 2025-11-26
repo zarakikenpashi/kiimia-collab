@@ -29,6 +29,7 @@ function Register() {
         email: data.email,
         password: data.password,
         password_confirmation: data.confirmPassword,
+        role: "customer",
       });
 
       setSuccessMessage('Compte créé avec succès ! Redirection...');

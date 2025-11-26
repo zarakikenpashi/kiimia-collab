@@ -23,12 +23,8 @@ function Login() {
         email: data.email,
         password: data.password,
       });
-
-      setSuccessMessage('Connexion réussie ! Redirection...');
       
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 1000);
+      setSuccessMessage('Connexion réussie ! Redirection...');
       
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);

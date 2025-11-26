@@ -5,7 +5,7 @@ function ProtectedRoute({ children, allowedRoles = [] }) {
   const { isAuthenticated, user } = useAuthStore();
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth/login" replace />;
+    return <Navigate to="/auth" replace />;
   }
 
   // Si des rôles sont spécifiés, vérifier que l'utilisateur a le bon rôle
