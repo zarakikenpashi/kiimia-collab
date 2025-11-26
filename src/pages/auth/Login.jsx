@@ -111,7 +111,7 @@ function Login() {
         Pas encore de compte ?
         <Link
           className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors underline-offset-4 hover:underline h-9 py-2 px-2"
-          to="/register"
+          to="/auth/register"
         >
           Créer un compte
         </Link>
