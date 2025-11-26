@@ -1,33 +1,61 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { login } from "../../services/authService";
+import { useState } from 'react';
 
 function Login() {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm({
-    mode: 'onBlur'
-  });
+  } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      console.log('Données de connexion:', data);
-      await login(data);
+      setErrorMessage('');
+      setSuccessMessage('');
+      
+      await login({
+        email: data.email,
+        password: data.password,
+      });
+
+      setSuccessMessage('Connexion réussie ! Redirection...');
+      
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000);
+      
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
+      setErrorMessage(error.message || 'Email ou mot de passe incorrect');
     }
   };
 
   return (
-    <form className="flex flex-col gap-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <div className="flex flex-col items-center gap-1 text-center">
-        <h1 className="text-xl font-bold">Connectez-vous à votre compte</h1>
-        <p className="text-muted-foreground text-xs text-balance">
-          Entrez votre adresse e-mail ci-dessous pour vous connecter à votre compte
+        <h1 className="text-2xl font-bold">Connexion</h1>
+        <p className="text-muted-foreground text-sm text-balance">
+          Connectez-vous à votre compte
         </p>
       </div>
+
+      {successMessage && (
+        <div className="p-3 bg-green-50 border border-green-200 text-green-800 rounded-md text-sm">
+          {successMessage}
+        </div>
+      )}
+      
+      {errorMessage && (
+        <div className="p-3 bg-red-50 border border-red-200 text-red-800 rounded-md text-sm">
+          {errorMessage}
+        </div>
+      )}
 
       <div className="space-y-2">
         <label htmlFor="email" className="block text-sm">Email</label>
@@ -50,9 +78,9 @@ function Login() {
       </div>
 
       <div className="space-y-2">
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
           <label htmlFor="password" className="block text-sm">Mot de passe</label>
-          <Link href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
+          <Link to="/forgot-password" className="text-xs text-primary hover:underline">
             Mot de passe oublié ?
           </Link>
         </div>
@@ -61,11 +89,7 @@ function Login() {
           type="password"
           className={`input ${errors.password ? 'border-red-500' : ''}`}
           {...register('password', {
-            required: 'Le mot de passe est requis',
-            minLength: {
-              value: 6,
-              message: 'Le mot de passe doit comporter au moins 6 caractères'
-            }
+            required: 'Le mot de passe est requis'
           })}
         />
         {errors.password && (
@@ -73,22 +97,21 @@ function Login() {
         )}
       </div>
 
-      <button
-        type="submit"
+      <button 
+        type="submit" 
         disabled={isSubmitting}
-        onClick={handleSubmit(onSubmit)}
-        className="w-full btn bg-muted text-white border-[#e5e5e5] disabled:opacity-50"
+        className="w-full btn bg-muted text-white border-[#e5e5e5] disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? 'Connexion en cours...' : 'Se connecter'}
+        {isSubmitting ? 'Connexion...' : 'Se connecter'}
       </button>
 
       <hr className="my-2 border-dashed" />
 
       <p className="text-accent-foreground text-center text-sm">
-        <span>Vous n'avez pas de compte ?</span>
+        Pas encore de compte ?
         <Link
-          className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none underline-offset-4 hover:underline h-9 py-2 px-2"
-          to="/auth/register"
+          className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors underline-offset-4 hover:underline h-9 py-2 px-2"
+          to="/register"
         >
           Créer un compte
         </Link>
@@ -97,4 +120,4 @@ function Login() {
   );
 }
 
-export default Login
+export default Login;

@@ -1,17 +1,19 @@
 import { Route } from "react-router-dom"
 import CompanyLayout from "../components/layouts/CompanyLayout"
 import Dashboard from "../pages/company/Dashboard"
-import Orders from "../pages/company/Orders"
-import Trajets from "../pages/company/Trajets"
-import Stats from "../pages/company/Stats"
+import Voyages from "../pages/company/Voyages"
+import VoyagesPlus from "../pages/company/VoyagesPlus"
+import Tickets from "../pages/company/Tickets"
+import TicketsPlus from "../pages/company/TicketsPlus"
 
 function CompanyRoutes() {
   return (
     <Route path="compagnie" element={<CompanyLayout />}>
       <Route index element={<Dashboard />} />
-      <Route path="orders" element={<Orders />} />
-      <Route path="trajets" element={<Trajets />} />
-      <Route path="stats" element={<Stats />} />
+        <Route path="listevoyages" element={<Voyages />} />
+        <Route path="nouveauvoyage" element={<VoyagesPlus />} />
+        <Route path="listetickets" element={<Tickets />} />
+        <Route path="nouveauticket" element={<TicketsPlus />} />
     </Route>
   )
 }

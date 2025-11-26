@@ -1,8 +1,13 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { register as registerUser } from "../../services/authService";
+import { useState } from 'react';
 
 function Register() {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -16,15 +21,26 @@ function Register() {
 
   const onSubmit = async (data) => {
     try {
-      console.log('Données du formulaire:', data);
+      setErrorMessage('');
+      setSuccessMessage('');
+      
       await registerUser({
         name: data.name,
         email: data.email,
         password: data.password,
         password_confirmation: data.confirmPassword,
       });
+
+      setSuccessMessage('Compte créé avec succès ! Redirection...');
+      
+      // Rediriger vers le dashboard après 1.5 secondes
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1500);
+      
     } catch (error) {
       console.error('Erreur lors de la création du compte:', error);
+      setErrorMessage(error.message || 'Une erreur est survenue lors de la création du compte');
     }
   };
 
@@ -36,6 +52,18 @@ function Register() {
           Remplissez le formulaire ci-dessous pour créer votre compte
         </p>
       </div>
+
+      {successMessage && (
+        <div className="p-3 bg-green-50 border border-green-200 text-green-800 rounded-md text-sm">
+          {successMessage}
+        </div>
+      )}
+      
+      {errorMessage && (
+        <div className="p-3 bg-red-50 border border-red-200 text-red-800 rounded-md text-sm">
+          {errorMessage}
+        </div>
+      )}
 
       <div className="space-y-2">
         <label htmlFor="name" className="block text-sm">Nom complet</label>
@@ -76,7 +104,7 @@ function Register() {
           <p className="text-xs text-red-500">{errors.email.message}</p>
         ) : (
           <p className="text-xs">
-            Nous l'utiliserons pour vous contacter. Nous ne partagerons votre adresse e-mail avec personne d'autre.
+            Nous l'utiliserons pour vous contacter.
           </p>
         )}
       </div>
@@ -103,7 +131,7 @@ function Register() {
           <p className="text-xs text-red-500">{errors.password.message}</p>
         ) : (
           <p className="text-xs">
-            Doit comporter au moins 8 caractères avec une majuscule, une minuscule et un chiffre.
+            Minimum 8 caractères avec majuscule, minuscule et chiffre.
           </p>
         )}
       </div>
@@ -120,20 +148,15 @@ function Register() {
               value === password || 'Les mots de passe ne correspondent pas'
           })}
         />
-        {errors.confirmPassword ? (
+        {errors.confirmPassword && (
           <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>
-        ) : (
-          <p className="text-xs">
-            Veuillez confirmer votre mot de passe.
-          </p>
         )}
       </div>
 
       <button 
         type="submit" 
         disabled={isSubmitting}
-        onClick={handleSubmit(onSubmit)}
-        className="w-full btn bg-muted text-white border-[#e5e5e5] disabled:opacity-50"
+        className="w-full btn bg-muted text-white border-[#e5e5e5] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? 'Création en cours...' : 'Créer un compte'}
       </button>
@@ -143,7 +166,7 @@ function Register() {
       <p className="text-accent-foreground text-center text-sm">
         Vous avez déjà un compte ?
         <Link
-          className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none underline-offset-4 hover:underline h-9 py-2 px-2"
+          className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors underline-offset-4 hover:underline h-9 py-2 px-2"
           to="/auth"
         >
           Se connecter
@@ -153,4 +176,4 @@ function Register() {
   );
 }
 
-export default Register
+export default Register;
