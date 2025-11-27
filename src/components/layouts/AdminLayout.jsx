@@ -3,50 +3,30 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { 
   ChevronRight, 
   ChevronDown, 
-  Layers, 
-  Box,
   Compass,
   Home,
   Menu,
-  Cpu,
-  Zap,
-  Code,
+  PieChart,
 } from 'lucide-react';
 
 function AdminLayout() {
-  const [openMenus, setOpenMenus] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
+  const [user, setUser] = useState(null);
 
-  const toggleMenu = (menuName) => {
-    setOpenMenus(prev => ({
-      ...prev,
-      [menuName]: !prev[menuName]
-    }));
-  };
 
-  const platformItems = [
-    { 
-      name: 'Utilisateurs', 
-      icon: Compass, 
-      path: '/admin/users',
-      submenu: [
-        { name: 'Liste des utilisateurs', icon: Zap, path: '/admin/listeutilisateur' },
-        { name: 'Ajouter un utilisateur', icon: Code, path: '/admin/nouveauutilisateur' },
-      ]
-    },
-    { 
-      name: 'Voyages', 
-      icon: Box, 
-      path: '/admin/voyage',
-      submenu: [
-        { name: 'Liste des voyages', icon: Cpu, path: '/admin/listevoyages' },
-        { name: 'Ajouter un voyage', icon: Layers, path: '/admin/nouveauvoyage' },
-      ]
-    },
+  const navigations = [
+    { name: 'Dashboard', icon: Compass, path: '/admin/dashboard' },
+    { name: 'Utilisateurs', icon: Compass, path: '/admin/listeutilisateur' },
+    { name: 'Voyages', icon: PieChart, path: '/admin/listevoyages' },
   ];
 
+
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
+
+
+
+
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -71,47 +51,19 @@ function AdminLayout() {
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto p-3">
           {/* Platform Section */}
-          <div className="mb-6">
+          <div className="my-4">
             <ul className="space-y-1">
-              {platformItems.map((item) => (
+              {navigations.map((item) => (
                 <li key={item.name}>
-                  <div>
-                    <button
-                      onClick={() => toggleMenu(item.name)}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors ${
-                        isActive(item.path) ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-700'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <item.icon className="w-4 h-4 text-gray-500" />
-                        <span>{item.name}</span>
-                      </div>
-                      <ChevronRight 
-                        className={`w-4 h-4 text-gray-400 transition-transform ${
-                          openMenus[item.name] ? 'rotate-90' : ''
-                        }`}
-                      />
-                    </button>
-                    
-                    {/* Submenu */}
-                    {openMenus[item.name] && (
-                      <ul className="mt-1 ml-7 space-y-1">
-                        {item.submenu.map((subitem) => (
-                          <li key={subitem.name}>
-                            <Link
-                              to={subitem.path}
-                              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors ${
-                                isActive(subitem.path) ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600'
-                              }`}
-                            >
-                              <subitem.icon className="w-3.5 h-3.5" />
-                              <span>{subitem.name}</span>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
+                  <Link
+                    to={item.path}
+                    className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors ${
+                      isActive(item.path) ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600'
+                    }`}
+                  >
+                    <item.icon className="w-3.5 h-3.5" />
+                    <span>{item.name}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -124,8 +76,7 @@ function AdminLayout() {
               <span className="text-white text-xs font-semibold">SK</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">kenny</p>
-              <p className="text-xs text-gray-500 truncate">kenny@exemple.com</p>
+              <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
             </div>
             <button className="p-1 hover:bg-gray-200 rounded">
               <ChevronDown className="w-4 h-4 text-gray-600" />
@@ -155,7 +106,7 @@ function AdminLayout() {
         </header>
 
         {/* Content Area with Outlet */}
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex-1 overflow-y-auto">
           <Outlet />
         </div>
       </main>

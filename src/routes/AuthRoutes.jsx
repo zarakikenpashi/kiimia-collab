@@ -6,7 +6,14 @@ import GuestRoute from "../components/GuestRoute"
 
 function AuthRoutes() {
   return (
-  <Route path="/auth" element={<GuestRoute><AuthLayout /></GuestRoute>}>
+  <Route 
+    path="/auth" 
+    element={
+      <GuestRoute>
+        <AuthLayout />
+      </GuestRoute>
+    }
+  >
     <Route index element={<Login />} />
     <Route path="register" element={<Register />} />
   </Route>

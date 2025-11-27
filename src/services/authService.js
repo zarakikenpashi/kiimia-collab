@@ -37,6 +37,7 @@ export const logout = async () => {
 export const getCurrentUser = async () => {
   try {
     const token = useAuthStore.getState().token;
+    console.log(token)
     if (!token) return null;
     
     const user = await apiFetch('/user', 'GET', null, token);

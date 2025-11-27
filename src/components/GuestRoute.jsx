@@ -4,12 +4,14 @@ import { useAuthStore } from '../store/useAuthStore';
 function GuestRoute({ children }) {
   const { isAuthenticated, user } = useAuthStore();
 
+
+
   if (isAuthenticated && user) {
-    if (user.role === 'admin') {
+    if (user.role == 'admin') {
       return <Navigate to="/admin" replace />;
     }
     
-    if (user.role === 'company') {
+    if (user.role == 'company') {
       return <Navigate to="/company" replace />;
     }
 
