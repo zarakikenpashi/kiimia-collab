@@ -24,6 +24,7 @@ export const useAuthStore = create(
         isAuthenticated: false 
       }),
     }),
+    
     {
       name: 'auth-storage',
       partialize: (state) => ({ 

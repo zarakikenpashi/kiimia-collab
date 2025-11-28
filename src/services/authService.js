@@ -20,6 +20,35 @@ export const login = async (data) => {
   return { token, user };
 };
 
+export const updateProfile = async (data) => {
+  try {
+    const token = useAuthStore.getState().token;
+    if (!token) {
+      throw new Error("Utilisateur non authentifié");
+    }
+    const isFormData = data instanceof FormData;
+
+    const response = await apiFetch(
+      '/update',
+      'POST',
+      data, 
+      token,
+      isFormData ? true : false
+    );
+    if (response.user) {
+      useAuthStore.getState().setUser(response.user);
+    }
+
+    return response;
+
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du profil:", error);
+    throw error;
+  }
+};
+
+
+
 export const logout = async () => {
   try {
     const token = useAuthStore.getState().token;
@@ -34,15 +63,17 @@ export const logout = async () => {
   }
 };
 
+
 export const getCurrentUser = async () => {
   try {
     const token = useAuthStore.getState().token;
-    console.log(token)
     if (!token) return null;
     
     const user = await apiFetch('/user', 'GET', null, token);
-    useAuthStore.getState().setUser(user);
-    return user;
+    useAuthStore.getState().setUser(user.user);
+
+    return user.user;
+
   } catch (error) {
     console.error('Erreur lors de la récupération de l\'utilisateur:', error);
     useAuthStore.getState().logout();

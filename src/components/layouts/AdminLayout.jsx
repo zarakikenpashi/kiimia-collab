@@ -1,19 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { 
+import {
   ChevronRight, 
   ChevronDown, 
   Compass,
   Home,
   Menu,
   PieChart,
+  User, 
+  Settings, 
+  CreditCard, 
+  LogOut, 
+  Users, 
+  HelpCircle
 } from 'lucide-react';
+import { useAuthStore } from "../../store/useAuthStore";
+
+import { DropdownMenu } from "../ui/DropdownMenu";
+import { logout } from "../../services/authService";
+import { useNavigate } from 'react-router-dom';
+
 
 function AdminLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
-  const [user, setUser] = useState(null);
+  const [profil, setProfil] = useState(null);
+  const { user } = useAuthStore();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    setProfil(user) //L'utilisateur connecté
+  });
 
   const navigations = [
     { name: 'Dashboard', icon: Compass, path: '/admin/dashboard' },
@@ -22,10 +39,22 @@ function AdminLayout() {
   ];
 
 
+  const userMenuItems = [
+    { 
+      icon: User, 
+      label: 'Mon Profil',
+      onClick: () => navigate('/admin/profile')
+    },
+    { divider: true },
+    { 
+      icon: LogOut, 
+      label: 'Déconnexion', 
+      danger: true,
+      onClick: async () => await logout()
+    },
+  ];
+
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
-
-
-
 
 
   return (
@@ -71,17 +100,14 @@ function AdminLayout() {
         </nav>
 
         <div className="p-4 border-t border-gray-200">
-          <div className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">
-            <div className="w-8 h-8 bg-linear-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-xs font-semibold">SK</span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
-            </div>
-            <button className="p-1 hover:bg-gray-200 rounded">
-              <ChevronDown className="w-4 h-4 text-gray-600" />
-            </button>
-          </div>
+          <DropdownMenu
+            align="left"
+            direction="up"
+            trigger={
+              <UserProfil user={profil} />
+            }
+            items={userMenuItems}
+          />
         </div>
       </aside>
 
@@ -112,6 +138,22 @@ function AdminLayout() {
       </main>
     </div>
   );
+}
+const UserProfil = ({user}) => {
+  return(
+    <div className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">
+      <div className="w-8 h-8 bg-linear-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+        <span className="text-white text-xs font-semibold">SK</span>
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
+        <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+      </div>
+      <button className="p-1 hover:bg-gray-200 rounded cursor-pointer">
+        <ChevronDown className="w-4 h-4 text-gray-600" />
+      </button>
+    </div>
+  )
 }
 
 export default AdminLayout

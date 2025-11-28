@@ -8,6 +8,7 @@ import NewPartner from "../pages/admin/NewPartner"
 import Utilisateurs from "../pages/admin/Utilisateurs"
 import NewAdministrator from "../pages/admin/NewAdministrator"
 import EditeAdministrator from "../pages/admin/EditeAdministrator"
+import Profile from "../pages/admin/Profile"
 
 function AdminRoutes() {
   return (
@@ -19,7 +20,7 @@ function AdminRoutes() {
       </ProtectedRoute >}>
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
-
+        <Route path="profile" element={<Profile />} />
         <Route path="listeutilisateur" element={<Utilisateurs />} />
         <Route path="nouveaupartenaire" element={<NewPartner />} />
         <Route path="nouveauadmin" element={<NewAdministrator />} />
